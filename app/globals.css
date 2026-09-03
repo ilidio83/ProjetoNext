@@ -1,26 +1,54 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: #09090b;
+  color: #fafafa;
+  font-family: system-ui, sans-serif;
 }
+
+.cabecalho {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #27272a;
+}
+.cabecalho nav { display: flex; gap: 12px; }
+
+/* o link ativo do menu */
+.menu-link { color: #a1a1aa; text-decoration: none; }
+.menu-link.ativo { color: #fafafa; font-weight: 600; }
+
+.conteudo { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+.rodape { padding: 16px; border-top: 1px solid #27272a; color: #a1a1aa; }
+
+.lista { list-style: none; padding: 0; display: grid; gap: 12px; }
+.lista li a {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.lista li a span { display: block; color: #a1a1aa; font-size: 14px; }
+
+.selo {
+  display: inline-block;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #14532d;
+  color: #bbf7d0;
+}
+
+.aviso { padding: 24px; border: 1px dashed #3f3f46; border-radius: 12px; }
+
+/* o esqueleto do loading, se você fizer o extra */
+.skeleton {
+  height: 72px;
+  border-radius: 12px;
+  background: #18181b;
+  animation: pulsa 1.2s ease-in-out infinite;
+}
+@keyframes pulsa { 50% { opacity: .5; } }
