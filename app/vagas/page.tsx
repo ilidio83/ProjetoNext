@@ -1,21 +1,17 @@
-import Link from "next/link";
 import { vagas } from "@/data/vagas";
+import MuralDeVagas from "@/components/MuralDeVagas";
 
-export default function ListaDeVagas() {
+export default function Vagas() {
+  // Continua saindo no TERMINAL: a página não virou de cliente.
+  // É a prova mais rápida de que a fronteira ficou onde você deixou.
+  console.log("[servidor] montando a listagem");
+
   return (
-    <ul className="lista">
-      {vagas.map((vaga) => (
-        // key: um identificador único por item da lista.
-        // Sem ele o Next avisa no terminal.
-        // E no href: crases + ${} = texto com um buraco
-        // preenchido na hora com o id daquela vaga.
-        <li key={vaga.id}>
-          <Link href={`/vagas/${vaga.id}`}>
-            <strong>{vaga.titulo}</strong>
-            <span>{vaga.empresa} · {vaga.local}</span>
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h1>Vagas</h1>
+      {/* A página busca o dado e entrega pronto. Quem cuida do
+          que muda é o mural — e só ele desce para o navegador. */}
+      <MuralDeVagas vagas={vagas} />
+    </>
   );
 }
