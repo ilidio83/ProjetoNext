@@ -1,51 +1,36 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { vagas } from "@/data/vagas";
-
-// EXTRA: faz o título da aba virar o nome da vaga.
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
-  const vaga = vagas.find((v) => v.id === id);
-  return { title: vaga ? `${vaga.titulo} · Leque de Vagas` : "Vaga não encontrada" };
-}
+import BotaoCopiarLink from "@/components/BotaoCopiarLink";
+import DescricaoDaVaga from "@/components/DescricaoDaVaga";
+import FormularioDeCandidatura from "@/components/FormularioDeCandidatura";
 
 export default async function PaginaDaVaga({
-  // 1. a caixinha com os pedaços da URL chega aqui
   params,
 }: {
-  // Promise = ela chega como um "vale", não pronta
   params: Promise<{ id: string }>;
 }) {
-  // 2. await troca o vale pelo valor
   const { id } = await params;
-
-  // 3. procura a vaga com esse id
   const vaga = vagas.find((v) => v.id === id);
-
-  // 4. não achou? para tudo e mostra o not-found.tsx desta pasta
-  if (!vaga) {
-    notFound();
-  }
+  if (!vaga) notFound();
 
   return (
-    <article className="vaga">
+    <article>
+      {/* Título e ficha: vêm prontos do servidor. Não mudam depois. */}
       <h1>{vaga.titulo}</h1>
-
       <p>
-        <Link href={`/empresas/${vaga.empresaSlug}`}>{vaga.empresa}</Link>
-        {" · "}{vaga.area} · {vaga.senioridade} · {vaga.local}
+        {vaga.empresa} · {vaga.area} · {vaga.senioridade} · {vaga.local}
       </p>
 
-      {vaga.aceitaIniciante && <p className="selo">Aceita quem está começando</p>}
+      {/* Daqui pra baixo, três componentes de cliente lado a lado.
+          Cada um tem a própria memória, e nenhum sabe do outro. */}
+      <BotaoCopiarLink titulo={vaga.titulo} />
+      <DescricaoDaVaga texto={vaga.descricao} />
 
-      <p>{vaga.descricao}</p>
+      <Link href={`/empresas/${vaga.empresaSlug}`}>ver a empresa</Link>
 
-      <Link href="/vagas">← todas as vagas</Link>
+      <h2>Candidatar-se</h2>
+      <FormularioDeCandidatura tituloDaVaga={vaga.titulo} />
     </article>
   );
 }
