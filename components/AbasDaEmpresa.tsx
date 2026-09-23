@@ -5,10 +5,13 @@ import Link from "next/link";
 import type { Vaga } from "@/data/vagas";
 
 export default function AbasDaEmpresa({
-  sobre,
+  empresa,
   vagas,
 }: {
-  sobre: string;
+  empresa: {
+    nome: string;
+    sobre: string;
+  };
   vagas: Vaga[];
 }) {
   // O estado aqui é TEXTO, não booleano: "sobre" ou "vagas".
@@ -37,7 +40,7 @@ export default function AbasDaEmpresa({
       </div>
 
       {aba === "sobre" ? (
-        <p>{sobre}</p>
+        <p>{empresa.sobre}</p>
       ) : (
         <ul className="lista">
           {vagas.map((vaga) => (
