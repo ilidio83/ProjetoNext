@@ -28,6 +28,16 @@ model Vaga {
   descricao       String
   criadaEm        DateTime @default(now())
   empresa         Empresa  @relation(fields: [empresaSlug], references: [slug])
+  candidaturas    Candidatura[]
 
   @@index([empresaSlug])
+}
+
+model Candidatura {
+  id       String   @id @default(uuid())
+  nome     String
+  email    String
+  vagaId   String
+  vaga     Vaga     @relation(fields: [vagaId], references: [id])
+  criadaEm DateTime @default(now())
 }

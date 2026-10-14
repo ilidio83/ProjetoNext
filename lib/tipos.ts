@@ -1,5 +1,6 @@
 // Só os tipos. Nenhum dado. Este arquivo não sabe de onde a vaga vem —
 // e é por isso que ele continua valendo quando a fonte trocar de endereço.
+import type { Candidatura as CandidaturaPersistida } from "@/generated/prisma/client";
 
 export type Vaga = {
   id: string;
@@ -27,13 +28,4 @@ export type Estado = {
 };
 export const ESTADO_INICIAL: Estado = { ok: false, erros: {}, valores: {} };
 
-// A frente 3 precisa deste. Ele não existia porque, até ontem, a
-// candidatura nunca saía do navegador de quem preencheu.
-export type Candidatura = {
-  id: string;
-  vagaId: string;
-  nome: string;
-  email: string;
-  habilidades: string[];
-  enviadaEm: string;
-};
+export type Candidatura = CandidaturaPersistida;

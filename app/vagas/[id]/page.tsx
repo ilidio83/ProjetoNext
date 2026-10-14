@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { listarVagas, buscarVaga } from "@/lib/api";
+import { prisma } from "@/lib/prisma";
 import DescricaoDaVaga from "@/components/DescricaoDaVaga";
+import FormularioDeCandidatura from "@/components/FormularioDeCandidatura";
+
+export const dynamic = "force-dynamic";
 
 // Desde o Next 15, params é uma Promise. É por isso que ele leva await.
 type Props = { params: Promise<{ id: string }> };
@@ -42,10 +46,17 @@ export default async function PaginaDaVaga({ params }: Props) {
   // interrompe a renderização e entrega o not-found.tsx da aula 02.
   if (!vaga) notFound();
 
+  const totalDeCandidaturas = await prisma.candidatura.count({ where: { vagaId: id } });
+
   return (
     <article>
       <h1>{vaga.titulo}</h1>
       <DescricaoDaVaga texto={vaga.descricao} />   {/* o "ver mais" da aula 03 */}
+      <p>{totalDeCandidaturas} {totalDeCandidaturas === 1 ? "candidatura" : "candidaturas"}</p>
+      <section>
+        <h2>Candidate-se</h2>
+        <FormularioDeCandidatura vagaId={vaga.id} />
+      </section>
     </article>
   );
 }
