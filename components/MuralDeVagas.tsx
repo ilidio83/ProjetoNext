@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Filtros from "./Filtros";
 import CardDeVaga from "./CardDeVaga";
-import type { Vaga } from "@/dados/vagas";
+import type { VagaPublicada } from "@/dados/vagas";
 
-export default function MuralDeVagas({ vagas }: { vagas: Vaga[] }) {
+export default function MuralDeVagas({ vagas }: { vagas: VagaPublicada[] }) {
   // O estado mora AQUI, no pai comum dos filtros e da lista.
   // Dois componentes precisam da busca: quem mora sozinho não serve.
   const [busca, setBusca] = useState("");

@@ -1,8 +1,16 @@
-import type { Vaga } from "@/lib/tipos";
+export type VagaPublicada = {
+  id: string;
+  titulo: string;
+  empresa: string;
+  empresaSlug: string;
+  area: string;
+  senioridade: string;
+  local: string;
+  aceitaIniciante: boolean;
+  descricao: string;
+};
 
-export type { Vaga } from "@/lib/tipos";
-
-export const vagas: Vaga[] = [
+export const vagas: VagaPublicada[] = [
   {
     id: "1",
     titulo: "Pessoa Desenvolvedora Front-end Júnior",

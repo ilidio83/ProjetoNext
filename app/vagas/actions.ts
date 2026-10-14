@@ -3,10 +3,22 @@
 import { revalidatePath } from "next/cache";
 import { empresas as empresasPublicadas } from "@/data/empresas";
 import { vagas as vagasPublicadas } from "@/dados/vagas";
-import { EsquemaDaCandidatura } from "@/lib/esquemas";
+import { EsquemaDaCandidatura, EsquemaDeArquivar } from "@/lib/esquemas";
 import { valoresDe, porCampo } from "@/lib/formulario";
 import { prisma } from "@/lib/prisma";
 import type { Estado } from "@/lib/tipos";
+
+export async function arquivarVaga(dados: FormData): Promise<void> {
+  const validacao = EsquemaDeArquivar.safeParse({ id: dados.get("id") });
+  if (!validacao.success) return;
+
+  const resultado = await prisma.vaga.updateMany({
+    where: { id: validacao.data.id, arquivada: false },
+    data: { arquivada: true },
+  });
+
+  if (resultado.count > 0) revalidatePath("/vagas");
+}
 
 export async function enviarCandidatura(_estadoAnterior: Estado, dados: FormData): Promise<Estado> {
   const valores = valoresDe(dados);

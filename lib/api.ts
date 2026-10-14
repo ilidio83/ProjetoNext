@@ -1,18 +1,45 @@
-import type { Vaga, Empresa } from "@/lib/tipos";
+import type { Prisma } from "@/generated/prisma/client";
+import type { Empresa } from "@/lib/tipos";
 import { empresas as empresasPublicadas } from "@/data/empresas";
-import { vagas } from "@/dados/vagas";
+import { vagas as vagasPublicadas, type VagaPublicada } from "@/dados/vagas";
 import { prisma } from "@/lib/prisma";
 
-export async function listarVagas(): Promise<Vaga[]> {
-  return vagas;
+type VagaComEmpresa = Prisma.VagaGetPayload<{
+  include: { empresa: { select: { nome: true } } };
+}>;
+
+function paraVagaPublicada(vaga: VagaComEmpresa): VagaPublicada {
+  return {
+    id: vaga.id,
+    titulo: vaga.titulo,
+    empresa: vaga.empresa.nome,
+    empresaSlug: vaga.empresaSlug,
+    area: vaga.area,
+    senioridade: vaga.senioridade,
+    local: vaga.local,
+    aceitaIniciante: vaga.aceitaIniciante,
+    descricao: vaga.descricao,
+  };
 }
 
-// Buscar UMA vaga é buscar todas e achar. Parece desperdício e não é: as
-// duas chamadas são o MESMO fetch, com a mesma URL e as mesmas opções —
-// o Next junta as duas num pedido só dentro do mesmo request.
-export async function buscarVaga(id: string): Promise<Vaga | undefined> {
-  const vagas = await listarVagas();
-  return vagas.find((vaga) => vaga.id === id);
+export async function listarVagas(): Promise<VagaPublicada[]> {
+  const vagas = await prisma.vaga.findMany({
+    where: { arquivada: false },
+    include: { empresa: { select: { nome: true } } },
+  });
+
+  return vagas.map(paraVagaPublicada);
+}
+
+// A vaga persistida vence; a publicação continua servindo de fallback para
+// fichas conhecidas que ainda não foram criadas no banco.
+export async function buscarVaga(id: string): Promise<VagaPublicada | undefined> {
+  const vaga = await prisma.vaga.findUnique({
+    where: { id },
+    include: { empresa: { select: { nome: true } } },
+  });
+
+  return vaga ? paraVagaPublicada(vaga) : vagasPublicadas.find((item) => item.id === id);
 }
 
 export async function listarEmpresas(): Promise<Empresa[]> {
