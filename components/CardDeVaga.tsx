@@ -1,7 +1,8 @@
 import Link from "next/link";
-import type { Vaga } from "@/dados/vagas";
+import { arquivarVaga } from "@/app/vagas/actions";
+import type { VagaPublicada } from "@/dados/vagas";
 
-export default function CardDeVaga({ vaga }: { vaga: Vaga }) {
+export default function CardDeVaga({ vaga }: { vaga: VagaPublicada }) {
   return (
     <li>
       <Link href={`/vagas/${vaga.id}`}>
@@ -11,6 +12,10 @@ export default function CardDeVaga({ vaga }: { vaga: Vaga }) {
         </span>
       </Link>
       {vaga.aceitaIniciante && <span className="selo">aceita iniciante</span>}
+      <form action={arquivarVaga}>
+        <input type="hidden" name="id" value={vaga.id} />
+        <button type="submit">Arquivar vaga</button>
+      </form>
     </li>
   );
 }

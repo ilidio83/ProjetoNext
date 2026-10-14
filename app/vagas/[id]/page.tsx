@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { listarVagas, buscarVaga } from "@/lib/api";
+import { buscarVaga } from "@/lib/api";
+import { vagas as vagasPublicadas } from "@/dados/vagas";
 import { prisma } from "@/lib/prisma";
 import DescricaoDaVaga from "@/components/DescricaoDaVaga";
 import FormularioDeCandidatura from "@/components/FormularioDeCandidatura";
@@ -14,12 +15,10 @@ type Props = { params: Promise<{ id: string }> };
 // O Next não tem como adivinhar QUAIS ids existem — a pasta [id] atende
 // infinitos endereços. Esta função conta. Ela roda UMA vez, no build.
 export async function generateStaticParams() {
-  const vagas = await listarVagas();
-
   // A CHAVE tem que se chamar `id`, igual ao nome da pasta [id]. Nome
   // errado não dá erro: simplesmente não gera nada, em silêncio.
   // E o valor tem que ser TEXTO — endereço é texto.
-  return vagas.map((vaga) => ({ id: String(vaga.id) }));
+  return vagasPublicadas.map((vaga) => ({ id: String(vaga.id) }));
 }
 
 // ─── O TÍTULO DA ABA ───────────────────────────────────────────────────

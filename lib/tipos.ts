@@ -2,18 +2,6 @@
 // e é por isso que ele continua valendo quando a fonte trocar de endereço.
 import type { Candidatura as CandidaturaPersistida } from "@/generated/prisma/client";
 
-export type Vaga = {
-  id: string;
-  titulo: string;
-  empresa: string;
-  empresaSlug: string;
-  area: string;
-  senioridade: string;
-  local: string;
-  aceitaIniciante: boolean;
-  descricao: string;
-};
-
 export type Empresa = {
   slug: string;
   nome: string;

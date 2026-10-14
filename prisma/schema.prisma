@@ -25,6 +25,7 @@ model Vaga {
   senioridade     String
   local           String
   aceitaIniciante Boolean  @default(false)
+  arquivada       Boolean  @default(false)
   descricao       String
   criadaEm        DateTime @default(now())
   empresa         Empresa  @relation(fields: [empresaSlug], references: [slug])

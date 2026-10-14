@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Vaga } from "@/dados/vagas";
+import type { VagaPublicada } from "@/dados/vagas";
 
 export default function AbasDaEmpresa({
   empresa,
@@ -12,7 +12,7 @@ export default function AbasDaEmpresa({
     nome: string;
     sobre: string;
   };
-  vagas: Vaga[];
+  vagas: VagaPublicada[];
 }) {
   // O estado aqui é TEXTO, não booleano: "sobre" ou "vagas".
   // Com booleano, a terceira aba (que um dia vem) não caberia.
