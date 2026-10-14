@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+##CONTRIBUIDORES:
 
+  1. Ilidio Santana de Souza Neto.
+  2. Arthur Cursino.
+  3. Diegio Hardman.
+  4. Gabrielle Pereira Palucci.
+  
 ## Getting Started
 
 First, run the development server:
