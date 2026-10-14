@@ -1,6 +1,7 @@
 import type { Vaga, Empresa } from "@/lib/tipos";
-import { empresas } from "@/data/empresas";
+import { empresas as empresasPublicadas } from "@/data/empresas";
 import { vagas } from "@/dados/vagas";
+import { prisma } from "@/lib/prisma";
 
 export async function listarVagas(): Promise<Vaga[]> {
   return vagas;
@@ -15,10 +16,18 @@ export async function buscarVaga(id: string): Promise<Vaga | undefined> {
 }
 
 export async function listarEmpresas(): Promise<Empresa[]> {
-  return empresas;
+  const porSlug = new Map(
+    empresasPublicadas.map((empresa) => [empresa.slug, empresa]),
+  );
+
+  for (const empresa of await prisma.empresa.findMany()) {
+    porSlug.set(empresa.slug, empresa);
+  }
+
+  return [...porSlug.values()];
 }
 
 export async function buscarEmpresa(slug: string): Promise<Empresa | undefined> {
-  const empresas = await listarEmpresas();
-  return empresas.find((empresa) => empresa.slug === slug);
+  const empresaDoBanco = await prisma.empresa.findUnique({ where: { slug } });
+  return empresaDoBanco ?? empresasPublicadas.find((empresa) => empresa.slug === slug);
 }

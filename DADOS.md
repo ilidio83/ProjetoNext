@@ -13,6 +13,8 @@
 
 ## Responsabilidades e migrations
 
+- Quando o mesmo `slug` existir no JSON publicado e no banco, o banco vence. Uma edicao feita pelo site precisa continuar visivel sem alterar a publicacao original; o JSON permanece como fallback para empresas sem registro no banco.
+
 - A Frente 1, como responsavel pela integracao, e a unica autora de `lib/prisma.ts` e da migration inicial. O client e compartilhado por toda a aplicacao; nao criar clients por frente.
 - Cada frente acrescenta somente seu proprio model ao `prisma/schema.prisma`, em commit pequeno e proprio. Antes de gerar uma migration com `prisma migrate dev`, fazer `git pull` para usar o schema e as migrations mais recentes; incluir a migration gerada junto da mudanca do model.
 - A migration inicial estabelece a base compartilhada. Migrations posteriores devem ser geradas em sequencia sobre o estado atualizado do repositorio, nunca em paralelo sobre copias desatualizadas do schema.
