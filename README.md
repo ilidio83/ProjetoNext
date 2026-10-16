@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
   1. Ilidio Santana de Souza Neto.
   2. Arthur Cursino.
-  3. Diegio Hardman.
+  3. Diego Hardman.
   4. Gabrielle Pereira Palucci.
   
 ## Getting Started
